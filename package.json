@@ -1,0 +1,29 @@
+{
+  "name": "generator-lightstream",
+  "version": "0.1.0",
+  "description": "yo generator to scaffold a new lightstream project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lightstream-company/lightstream-scaffolder.git"
+  },
+  "keywords": [
+    "lightstream",
+    "generator",
+    "yeoman",
+    "yo"
+  ],
+  "author": "Jérôme Avoustin <jerome@rehia.fr>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lightstream-company/lightstream-scaffolder/issues"
+  },
+  "homepage": "https://github.com/lightstream-company/lightstream-scaffolder#readme",
+  "dependencies": {
+    "eslint-config-lightstream": "^1.0.0",
+    "yeoman-generator": "^0.21.1"
+  }
+}
