@@ -47,6 +47,7 @@ module.exports = generators.Base.extend({
       this.version = answers.version;
       this.description = answers.description;
       this.keywords = answers.keywords ? answers.keywords.split(',') : null;
+      this.repository = answers.repository;
       done();
     }.bind(this));
   },
@@ -68,7 +69,7 @@ module.exports = generators.Base.extend({
           appName: this.appName,
           version: this.version,
           description: this.description,
-          repository: this.repository,
+          repository: formatRepository(this.repository),
           keywords: this.keywords ? JSON.stringify(this.keywords.map(function (keyword) {
             return keyword.trim();
           })) : null
@@ -86,22 +87,23 @@ module.exports = generators.Base.extend({
     }
   },
   install: function () {
-    var done = this.async();
     this.installDependencies({
       npm: true,
       callback: function () {
-        this.spawnCommand('yo', 'lightstream-config') // yo lightstream config
-          .on('close', function () {
-            this.spawnCommand('grunt', 'nginx') // grunt nginx
-              .on('close', done);
-          }.bind(this));
+        spawn('yo lightstream-config', { stdio: 'inherit' });
+        spawn('grunt nginx', { stdio: 'inherit' });
+        spawn('git init', { stdio: 'inherit' });
+        if (this.repository) {
+          spawn('git remote add origin ' + this.repository, { stdio: 'inherit' });
+          //spawn('git pull origin master', { stdio: 'inherit' });
+        }
+
+        this.log('It seems we’re done now !');
+        this.log('Git repository has been created and is ready for your first commit');
+        this.log('Don’t forget to create a symlink of <lightstream-directory>/app/node in the local app directory !');
+        this.log('’Hope everything’s ok and run ! ;)');
       }.bind(this)
     });
-  },
-  end: function () {
-    this.log('It seems we’re done now !');
-    this.log('’Hope everything’s ok and run !');
-    this.log('Don’t forget to run : yo lightstream-config and grunt nginx ;)');
   }
 });
 
@@ -111,4 +113,13 @@ function defaultGitRepository() {
       .match(/:[^:.]*/g)[0]
       .replace(':', '');
   } catch (e) { }
+}
+
+//git@github.com:lightstream-company/lightstream-scaffolder.git
+function formatRepository(repository) {
+  if (/http/g.test(repository)) {
+    return repository;
+  }
+
+  return 'https://' + repository.replace('git@', '').replace(':', '/').replace('.git', '');
 }
