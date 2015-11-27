@@ -61,7 +61,7 @@ module.exports = generators.Base.extend({
         );
       }.bind(this));
     },
-    copyPackageJson: function () {
+    copyTemplates: function () {
       this.fs.copyTpl(
         this.templatePath('_package.json'),
         this.destinationPath('package.json'),
@@ -75,6 +75,10 @@ module.exports = generators.Base.extend({
           })) : null
         }
       );
+
+      this.fs.copyTpl(
+        this.templatePath('_gitignore'),
+        this.destinationPath('.gitignore'));
     },
     copyAppFiles: function () {
       var files = ['config/index.js', 'app/front/js/main/index.js', 'app/front/less/main/index.less', 'public/index.html'];
