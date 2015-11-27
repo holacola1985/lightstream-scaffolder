@@ -33,20 +33,14 @@
     "test": "mocha test/integration_test.js"
   },
   "author": "Lightstream Team",
-  "license": "MIT",
-<% if (repository) { %>
+  "license": "MIT"<% if (repository) { %>,
   "repository": {
     "type": "git",
     "url": "git+<%- repository %>.git"
   },
-<% } %>
-<% if (keywords) { %>
-  "keywords": <%- keywords %>,
-<% } %>
-<% if (repository) { %>
-"bugs": {
+  "bugs": {
     "url": "<%- repository %>/issues"
   },
-  "homepage": "<%- repository %>#readme"
-<% } %>
+  "homepage": "<%- repository %>#readme"<% } if (keywords) { %>,
+  "keywords": <%- keywords %><% } %>
 }
